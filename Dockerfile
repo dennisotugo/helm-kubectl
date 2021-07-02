@@ -1,26 +1,21 @@
 FROM alpine:3
 
-ARG VCS_REF
-ARG BUILD_DATE
-ARG KUBE_VERSION
-ARG HELM_VERSION
 
-# Metadata
-LABEL org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.name="helm-kubectl" \
-      org.label-schema.url="https://hub.docker.com/r/dtzar/helm-kubectl/" \
-      org.label-schema.vcs-url="https://github.com/dtzar/helm-kubectl" \
-      org.label-schema.build-date=$BUILD_DATE
 
-RUN apk add --no-cache ca-certificates bash git openssh curl gettext jq bind-tools \
-    && wget -q https://storage.googleapis.com/kubernetes-release/release/v${KUBE_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
+RUN apk add --no-cache ca-certificates unzip bash git openssh wget curl gettext jq bind-tools \
+    && wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
+    && wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator -O /usr/local/bin/aws-iam-authenticator \
     && chmod +x /usr/local/bin/kubectl \
-    && wget -q https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
+    && chmod +x /usr/local/bin/aws-iam-authenticator \
+    && curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash \
     && chmod +x /usr/local/bin/helm \
     && chmod g+rwx /root \
     && mkdir /config \
     && chmod g+rwx /config \
-    && helm repo add "stable" "https://charts.helm.sh/stable" --force-update
+    && helm repo add "stable" "https://charts.helm.sh/stable" --force-update \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && sudo ./aws/install
 
 WORKDIR /config
 
