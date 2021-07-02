@@ -15,7 +15,7 @@ RUN apk add --no-cache ca-certificates unzip bash git openssl openssh wget curl 
     && helm repo add "stable" "https://charts.helm.sh/stable" --force-update \
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
-    && sudo ./aws/install
+    && ./aws/install
 
 WORKDIR /config
 
