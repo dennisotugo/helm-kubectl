@@ -59,5 +59,6 @@ COPY --from=installer /usr/local/aws-cli/ /usr/local/aws-cli/
 COPY --from=installer /aws-cli-bin/ /usr/local/bin/
 
 WORKDIR /config
+COPY base /config
 
 CMD bash
