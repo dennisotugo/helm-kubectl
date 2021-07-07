@@ -91,6 +91,7 @@ alb:
   healthcheck: /ping
   sg: {}
   conditionals: true
+  grpc: false
 
 service:
   enabled: true
