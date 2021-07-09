@@ -30,14 +30,14 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-path: {{ .Values.alb.healthcheck | quote }}
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
-{{- if .Values.alb.sg }}
+    {{- if .Values.alb.sg }}
     alb.ingress.kubernetes.io/security-groups: {{ .Values.alb.sg | quote }}
-{{- end }}
-    {{- if .Values.alb.grpc }}
-    alb.ingress.kubernetes.io/backend-protocol-version: GRPC
-    {{- else -}}
-    alb.ingress.kubernetes.io/backend-protocol-version: HTTP1
     {{- end }}
+    {{ if .Values.alb.grpc }}
+    alb.ingress.kubernetes.io/backend-protocol-version: GRPC
+    {{ else }}
+    alb.ingress.kubernetes.io/backend-protocol-version: HTTP1
+    {{ end }}
     alb.ingress.kubernetes.io/target-type: instance
     alb.ingress.kubernetes.io/ip-address-type: ipv4
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
