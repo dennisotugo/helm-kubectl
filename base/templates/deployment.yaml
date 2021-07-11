@@ -35,7 +35,7 @@ spec:
     spec:
       imagePullSecrets:
       - name: {{ .Values.imageSecretName }}
-      {{ if .Values.eks_iam.existing }}
+      {{ if .Values.eks_iam.existing.enabled }}
       serviceAccountName: {{ .Values.eks_iam.existing.name }}
       {{ else }}
       serviceAccountName: {{ include "base.serviceAccountName" . }}
