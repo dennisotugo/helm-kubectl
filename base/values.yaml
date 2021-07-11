@@ -80,6 +80,9 @@ roleArn: dummy
 
 eks_iam:
   enabled: false
+  existing:
+    enabled: false
+    name: dummy
 
 alb:
   name: alb
